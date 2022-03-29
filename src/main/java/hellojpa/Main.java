@@ -2,6 +2,10 @@ package hellojpa;
 
 import hellojpa.entity.Member;
 import hellojpa.factory.CEntityManagerFactory;
+import hellojpa.proxy.Code;
+import hellojpa.proxy.ProxySelector;
+import hellojpa.proxy.QuerySelector;
+import hellojpa.proxy.Selector;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -11,24 +15,10 @@ import javax.persistence.Persistence;
 public class Main {
     public static void main(String[] args) {
 
-        CEntityManagerFactory.initialization();
+        Selector selector = new ProxySelector(new QuerySelector(), Code.LAZY);
 
-        EntityManager entityManager = CEntityManagerFactory.createEntityManager();
-        EntityTransaction entityTransaction =  entityManager.getTransaction();
-        entityTransaction.begin();
+        selector.select();
 
-        try {
-            Member member = new Member();
-            member.setId(100L);
-            member.setName("안녕하세요");
 
-            entityManager.persist(member);
-            entityTransaction.commit();
-        }catch (Exception e) {
-            entityTransaction.rollback();
-        }finally {
-            entityManager.close();
-        }
-        CEntityManagerFactory.close();
     }
 }
