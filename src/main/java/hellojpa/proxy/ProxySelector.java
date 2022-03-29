@@ -10,7 +10,6 @@ public class ProxySelector  implements Selector{
 
     private final QuerySelector querySelector;
     private final Code code;
-    Member member;
 
     public ProxySelector(QuerySelector querySelector, Code code) {
         this.querySelector = querySelector;
@@ -31,13 +30,16 @@ public class ProxySelector  implements Selector{
             if(Code.LAZY == code){
                 System.out.println("Loading만 되었어!");
             }else{
-//                Selector selector = ()->{
-//                    member.setId(100L);
-//                    member.setName("안녕하세요");
-//                };
-//                selector.select();
-                member = this.querySelector.select();
+
             }
+                Selector selector = ()->{
+                    Member member = new Member();
+                    member.setId(100L);
+                    member.setName("test");
+                    return  member;
+                };
+            Member member = selector.select();
+           // Member member = this.querySelector.select();
             entityManager.persist(member);
             entityTransaction.commit();
         }
