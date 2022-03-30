@@ -27,17 +27,17 @@ public class ProxySelector  implements Selector{
         entityTransaction.begin();
         //Transaction - Commit
         try {
-            if(Code.LAZY == code){
-                System.out.println("Loading만 되었어!");
-            }else{
-
-            }
-                Selector selector = ()->{
+//            if(Code.LAZY == code){
+//                System.out.println("Loading만 되었어!");
+//            }else{
+//
+//            }
+                Selector selector = new ProxyServer(()->{
                     Member member = new Member();
                     member.setId(100L);
                     member.setName("test");
                     return  member;
-                };
+                });
             Member member = selector.select();
            // Member member = this.querySelector.select();
             entityManager.persist(member);
